@@ -8,6 +8,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @MapperScan(basePackages = {"com.wql.mapper"})
 public class ShiroDemoApplication {
 
+	//启动类
 	public static void main(String[] args) {
 		SpringApplication.run(ShiroDemoApplication.class, args);
 	}
