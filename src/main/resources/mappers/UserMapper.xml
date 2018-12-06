@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wql.mapper.UserMapper">
+    <resultMap id="userMap" type="com.wql.model.User">
+        <id column="id" property="id"/>
+        <result column="nickname" property="nickname"/>
+        <result column="email" property="email"/>
+        <result column="pswd" property="pswd"/>
+        <result column="create_time" property="createTime"/>
+        <result column="last_login_time" property="lastLoginTime"/>
+        <result column="status" property="status"/>
+        <collection property="roles" ofType="com.wql.model.Role">
+            <id column="id" property="id"/>
+            <result column="name" property="name"/>
+            <result column="type" property="type"/>
+            <collection property="permissions" ofType="com.wql.model.Permission">
+                <id column="id" property="id"/>
+                <result column="url" property="url"/>
+                <result column="name" property="name"/>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <select id="findByName" resultMap="userMap">
+        SELECT uu.*,ur.*,up.* FROM U_USER uu
+        LEFT JOIN u_user_role uur
+        ON uu.id=uur.uid
+        LEFT JOIN u_role ur
+        ON uur.rid=ur.id
+        LEFT JOIN u_role_permission urp
+        ON ur.id=urp.rid
+        LEFT JOIN u_permission up
+        ON urp.pid=up.id
+        WHERE uu.nickname = #{name}
+    </select>
+</mapper>
